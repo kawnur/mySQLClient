@@ -16,17 +16,17 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        manager.cpp
-        manager.h
         data.cpp
         data.h
         dialogs.cpp
         dialogs.h
         helpers.cpp
-        helpers.h        
+        helpers.h
+        main.cpp
+        mainwindow.cpp
+        mainwindow.h
+        manager.cpp
+        manager.h
         model.cpp
         model.h
         settings.config
