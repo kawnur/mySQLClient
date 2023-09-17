@@ -3,16 +3,11 @@
 #include <QString>
 #include "data.h"
 #include "settings.h"
-//#include "test.h"
+
 
 int main(int argc, char *argv[]) {
-    // run app
     QApplication a(argc, argv);
     a.setApplicationName(QString("mySQLClient"));
-
-    // run tests
-//    Test test;
-//    test.runTests();
 
     DBConnectionSettings* connSettings = DBConnectionSettings::instance();
     QSqlDatabase dataBase = QSqlDatabase::addDatabase("QPSQL");
