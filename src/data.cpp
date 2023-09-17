@@ -12,7 +12,7 @@ void DBConnectionSettings::initialize() {
         parseFile(this->settings, settingsFilePath);
     }
     catch (const std::exception& e) {
-        std::cout << e.what() << std::endl;
+        std::cout << e.what() << std::endl;  // TODO remove cout add handler
     }
 
     // print parsed settings

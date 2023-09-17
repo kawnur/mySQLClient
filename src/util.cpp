@@ -2,7 +2,6 @@
 
 bool setAndOpenSqlDatabase(QSqlDatabase& db) {
     DBConnectionSettings* connSettings = DBConnectionSettings::instance();
-    connSettings->printState();
 
     db.setHostName(connSettings->getSetting("HostName"));
     db.setPort(connSettings->getSetting("Port").toInt());

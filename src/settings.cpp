@@ -40,7 +40,6 @@ bool Settings::updateSettings(const Settings& newSettings) {
         }
         this->setSetting(pair);
     }
-    this->printState();
     return changed;
 }
 
