@@ -59,5 +59,5 @@ void MainWindow::createMenu() {
     QMenu* settingsMenu = menuBar()->addMenu("Settings");
     QAction* settingsAct = new QAction("DB Connection", this);
     settingsMenu->addAction(settingsAct);
-    connect(settingsAct, &QAction::triggered, dialog, &DBConnectionSettingsDialog::printSettingsAndShow);
+    connect(settingsAct, &QAction::triggered, dialog, &DBConnectionSettingsDialog::logSettingsAndShow);
 }

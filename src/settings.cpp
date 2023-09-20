@@ -50,10 +50,9 @@ bool Settings::find(const QString& key) const {
     return true;
 }
 
-void Settings::printState() const {
-    auto printer = [](auto iterator){
-        std::cout << "#" << iterator.first.toStdString() << "#" << '\t'
-                  << "#" << iterator.second.toStdString() << "#" << std::endl;
-    };
-    std::for_each(settingsMap.cbegin(), settingsMap.cend(), printer);
+void Settings::logState() const {
+    qInfo() << "HostName: " << this->settingsMap.at("HostName");
+    qInfo() << "Port: " << this->settingsMap.at("Port");
+    qInfo() << "DatabaseName: " << this->settingsMap.at("DatabaseName");
+    qInfo() << "UserName: " << this->settingsMap.at("UserName");
 }

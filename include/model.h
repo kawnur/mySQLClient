@@ -20,7 +20,7 @@ public:
     void initialize();
     void setTableName(const QString&);
     QTableView* getView() const;
-    void printState() const;
+    void logState() const;
 };
 
 #endif // MODEL_H

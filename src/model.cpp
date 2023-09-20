@@ -30,9 +30,9 @@ QTableView* Model::getView() const {
     return this->view;
 }
 
-void Model::printState() const {
-    std::cout << "Model: " << '\t' << this << '\t';
-    std::cout << "tableModel: " << '\t' << this->tableModel << '\t';
-    std::cout << "tableName: " << '\t' << this->tableName.toStdString() << '\t';
-    std::cout << "view: " << '\t' << this->view << std::endl;
+void Model::logState() const {
+    qInfo() << "Model: " << this;
+    qInfo() << "tableModel: " << this->tableModel;
+    qInfo() << "tableName: " << this->tableName;
+    qInfo() << "view: " << this->view;
 }

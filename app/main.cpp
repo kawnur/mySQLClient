@@ -1,13 +1,19 @@
 #include <QApplication>
 #include <QDir>
 #include <QString>
+#include <QtDebug>
+#include <QtGlobal>
 #include "data.h"
 #include "settings.h"
+#include "util.h"
 
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     a.setApplicationName(QString("mySQLClient"));
+
+    logFilePath.open(QFile::Append | QFile::Text);
+    qInstallMessageHandler(messageHandler);
 
     DBConnectionSettings* connSettings = DBConnectionSettings::instance();
     QSqlDatabase dataBase = QSqlDatabase::addDatabase("QPSQL");

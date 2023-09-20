@@ -1,83 +1,44 @@
 #include "util.h"
 
 bool setAndOpenSqlDatabase(QSqlDatabase& db) {
-    DBConnectionSettings* connSettings = DBConnectionSettings::instance();
+    DBConnectionSettings* connectionSettings = DBConnectionSettings::instance();
 
-    db.setHostName(connSettings->getSetting("HostName"));
-    db.setPort(connSettings->getSetting("Port").toInt());
-    db.setDatabaseName(connSettings->getSetting("DatabaseName"));
-    db.setUserName(connSettings->getSetting("UserName"));
-    db.setPassword(connSettings->getSetting("Password"));
+    db.setHostName(connectionSettings->getSetting("HostName"));
+    db.setPort(connectionSettings->getSetting("Port").toInt());
+    db.setDatabaseName(connectionSettings->getSetting("DatabaseName"));
+    db.setUserName(connectionSettings->getSetting("UserName"));
+    db.setPassword(connectionSettings->getSetting("Password"));
 
-    bool dbConnectionState = db.open();
-
-    if(!dbConnectionState) {
-        printError(&db, true);
-    }
-    return dbConnectionState;
+    return db.open();
 }
 
-void printQSqlQueryModelRecords(const QSqlQueryModel& m) {
-    for(int i = 0; i < m.rowCount(); ++i) {
-        QSqlRecord r = m.record(i);
+void logQSqlQueryModelRecords(const QSqlQueryModel* model) {
+    for(int i = 0; i < model->rowCount(); ++i) {
+        QSqlRecord record = model->record(i);
 
-        for(int rc = 0; rc < r.count(); rc++) {
-            std::string fieldName = r.fieldName(rc).toStdString();
-            std::string value = r.value(rc).toString().toStdString();
-            std::cout << fieldName << '\t' << value << '\t';
-        }
-        std::cout << std::endl;
-    }
-}
-
-void printQSqlQueryModelRecords(const std::vector<std::map<QString, QString>>& v) {
-    std::vector<std::map<QString, QString>>::const_iterator cbegin = v.cbegin();
-    std::vector<std::map<QString, QString>>::const_iterator cend = v.cend();
-
-    for(auto iter_vec = cbegin; iter_vec != cend; iter_vec++) {
-        std::map<QString, QString>::const_iterator cbegin1 = (*iter_vec).cbegin();
-        std::map<QString, QString>::const_iterator cend1 = (*iter_vec).cend();
-
-        for(auto iter_map = cbegin1; iter_map != cend1; iter_map++) {
-            std::cout << iter_map->first.toStdString() << '\t' << iter_map->second.toStdString() << '\t';
-        }
-        std::cout << std::endl;
-    }
-}
-
-void parseQSqlQueryModelRecords(const QSqlQueryModel* m, std::vector<QString>& v) {
-    for(int i = 0; i < m->rowCount(); ++i) {
-        QSqlRecord r = m->record(i);
-
-        for(int rc = 0; rc < r.count(); rc++) {
-            QString value = r.value(rc).toString();
-            v.push_back(value);
+        for(int rc = 0; rc < record.count(); rc++) {
+            qInfo() << record.fieldName(rc) << '\t' << record.value(rc).toString();
         }
     }
 }
 
-void parseQSqlQueryModelRecords(const QSqlQueryModel* m, std::vector<std::map<QString, QString>>& v) {
-    std::map<QString, QString> modelMap;
+void parseQSqlQueryModelRecords(const QSqlQueryModel* model, std::vector<QString>& vector_) {
+    for(int i = 0; i < model->rowCount(); ++i) {
+        QSqlRecord record = model->record(i);
 
-    for(int i = 0; i < m->rowCount(); ++i) {
-        QSqlRecord r = m->record(i);
-
-        for(int rc = 0; rc < r.count(); rc++) {
-            QString fieldName = r.fieldName(rc);
-            QString value = r.value(rc).toString();
-            modelMap[fieldName] = value;
+        for(int rc = 0; rc < record.count(); rc++) {
+            QString value = record.value(rc).toString();
+            vector_.push_back(value);
         }
-        std::cout << std::endl;
-        v.push_back(modelMap);
     }
 }
 
-std::pair<QString, QString> parseLine(QString& s, const QString& delimiter) {
-    s.replace(QString("\n"), QString(""));
-    qsizetype delimiterIndex = s.indexOf(delimiter);
+std::pair<QString, QString> parseLine(QString& string_, const QString& delimiter) {
+    string_.replace(QString("\n"), QString(""));
+    qsizetype delimiterIndex = string_.indexOf(delimiter);
 
-    QString key = s.left(delimiterIndex);
-    QString value = s.right(s.length() - delimiterIndex - 1);
+    QString key = string_.left(delimiterIndex);
+    QString value = string_.right(string_.length() - delimiterIndex - 1);
 
     return std::pair<QString, QString> {key, value};
 }
@@ -85,31 +46,38 @@ std::pair<QString, QString> parseLine(QString& s, const QString& delimiter) {
 void parseFile(Settings& settings, const std::filesystem::path& filePath) {
     QFile file(filePath);
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return;
     }
 
-    while (!file.atEnd()) {
+    while(!file.atEnd()) {
         QString line = QString(file.readLine());
         QString delimiter = settings.getDelimiter();
         std::pair<QString, QString> pair = parseLine(line, delimiter);
 
         if(!settings.find(pair.first)) {
-            throw Exception(std::string("Unknown key in settings file"));
+            qWarning() << "Unknown key in settings file: " << pair.first;
+            throw Exception(std::string("Unknown key in settings file"));  // TODO change Exception class
         }
 
         settings.setSetting(pair);
     }
 }
 
-void printError(const QSqlDatabase* db, bool extended) {
-    QSqlError error = db->lastError();
+void messageHandler(QtMsgType type, const QMessageLogContext& context, const QString& message) {
+    QTextStream out {&logFilePath};
 
-    if(extended) {
-        QString applicationDirPath = QCoreApplication::applicationDirPath();
-        std::cout << "QCoreApplication::applicationDirPath(): " << applicationDirPath.toStdString() << std::endl;
+    out << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss.zzz ");
 
-        QVersionNumber libraryVersion = QLibraryInfo::version();
-        std::cout << "libraryVersion: " << libraryVersion.toString().toStdString() << std::endl;
+    switch(type)
+    {
+        case QtInfoMsg:     out << "[INFO]     "; break;
+        case QtDebugMsg:    out << "[DEBUG]    "; break;
+        case QtWarningMsg:  out << "[WARNING]  "; break;
+        case QtCriticalMsg: out << "[CRITICAL] "; break;
+        case QtFatalMsg:    out << "[FATAL]    "; break;
     }
+
+    out << context.category << ": " << message << "\n";
+    out.flush();
 }

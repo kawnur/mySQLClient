@@ -24,20 +24,20 @@ void Manager::eraseModelByTableView(QTableView* tableView) {
     auto it = std::find_if(this->models.begin(), this->models.end(), compareView);
 
     this->models.erase(it);
-    this->printModels();
+    this->logModels();
 }
 
 void Manager::appendModel(const QString& tableName) {
     auto model = std::make_unique<Model>(tableChooser->getChosenTableName());
     model->initialize();
     this->models.push_back(std::move(model));
-    this->printModels();
+    this->logModels();
 }
 
-void Manager::printModels() const {
-    auto printFunction = [&](const std::unique_ptr<Model>& m){ m->printState(); };
-    std::cout << "this->models.size(): " << this->models.size() << std::endl;
-    std::for_each(this->models.begin(), this->models.end(), printFunction);
+void Manager::logModels() const {
+    auto logger = [&](const std::unique_ptr<Model>& model){ model->logState(); };
+    qInfo() << "Manager.models.size(): " << this->models.size();
+    std::for_each(this->models.begin(), this->models.end(), logger);
 }
 
 void Manager::defineTableName(const QString& tableName) {

@@ -11,12 +11,12 @@ void DBConnectionSettings::initialize() {
     try {
         parseFile(this->settings, settingsFilePath);
     }
-    catch (const std::exception& e) {
-        std::cout << e.what() << std::endl;  // TODO remove cout add handler
+    catch(const std::exception& e) {
+        qInfo() << e.what();  // TODO remove cout add handler
     }
 
-    // print parsed settings
-    this->printState();
+    // log parsed settings
+    this->logState();
 }
 
 DBConnectionSettings* DBConnectionSettings::instance() {
@@ -35,8 +35,8 @@ bool DBConnectionSettings::updateSettings(const Settings& newSettings) {
     return this->settings.updateSettings(newSettings);
 }
 
-void DBConnectionSettings::printState() const {
-    this->settings.printState();
+void DBConnectionSettings::logState() const {
+    this->settings.logState();
 }
 
 TableChooser::TableChooser(Manager* manager_) {
@@ -53,7 +53,9 @@ TableChooser::~TableChooser() {
 void TableChooser::initialize() {
     model->setQuery("select table_name from information_schema.tables where table_schema = 'public'");
 
+    logQSqlQueryModelRecords(model);
     parseQSqlQueryModelRecords(model, this->tableNames);
+
     std::sort(this->tableNames.begin(), this->tableNames.end());
 
     this->tableChoosingDialog->initialize();

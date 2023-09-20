@@ -5,14 +5,18 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QLibraryInfo>
+#include <QLoggingCategory>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QtGlobal>
 #include <QVersionNumber>
 #include "data.h"
 #include "settings.h"
 
+
+inline QFile logFilePath {"log"};
 
 class Exception : public std::exception {
 private:
@@ -28,16 +32,14 @@ public:
 
 bool setAndOpenSqlDatabase(QSqlDatabase&);
 
-void printQSqlQueryModelRecords(const QSqlQueryModel&);
-void printQSqlQueryModelRecords(const std::vector<std::map<QString, QString>>&);
+void logQSqlQueryModelRecords(const QSqlQueryModel*);
 
 void parseQSqlQueryModelRecords(const QSqlQueryModel*, std::vector<QString>&);
-void parseQSqlQueryModelRecords(const QSqlQueryModel*, std::vector<std::map<QString, QString>>&);
 
 std::pair<QString, QString> parseLine(QString&, const QString&);
 
 void parseFile(Settings&, const std::filesystem::path&);
 
-void printError(const QSqlDatabase*, bool);
+void messageHandler(QtMsgType, const QMessageLogContext&, const QString&);
 
 #endif // UTIL_H

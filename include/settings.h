@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <QString>
+#include <QtDebug>
 
 class Settings {
 private:
@@ -32,7 +33,7 @@ public:
     void setSetting(const std::pair<QString, QString>&);
     bool updateSettings(const Settings&);
     bool find(const QString&) const;
-    void printState() const;
+    void logState() const;
 };
 
 #endif // SETTINGS_H

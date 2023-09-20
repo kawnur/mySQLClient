@@ -30,7 +30,7 @@ public:
     static Manager* instance();
     void initializeTableChooser();
     void eraseModelByTableView(QTableView*);
-    void printModels() const;
+    void logModels() const;
 
 public slots:
     void defineTableName(const QString&);

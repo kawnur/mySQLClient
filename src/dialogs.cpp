@@ -36,23 +36,23 @@ DBConnectionSettingsDialog::DBConnectionSettingsDialog(QWidget* parent) {
     fl->addRow(passwordLabel, passwordLineEdit);
 
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &DBConnectionSettingsDialog::printSettingsAndAccept);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &DBConnectionSettingsDialog::logSettingsAndAccept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     fl->addWidget(buttonBox);
 }
 
-void DBConnectionSettingsDialog::printSettingsAndShow() {
+void DBConnectionSettingsDialog::logSettingsAndShow() {
     DBConnectionSettings* settings = DBConnectionSettings::instance();
-    settings->printState();
+    settings->logState();
 
     this->show();
 }
 
-void DBConnectionSettingsDialog::printSettingsAndAccept() {
+void DBConnectionSettingsDialog::logSettingsAndAccept() {
     DBConnectionSettings* settings = DBConnectionSettings::instance();
-    settings->printState();
-    this->printLineEditState();
+    settings->logState();
+    this->logLineEditState();
 
     if(this->updateSettingsFromLineEdits()) {
         DBConnectionSettingsChangedDialog* dialog = new DBConnectionSettingsChangedDialog(this);
@@ -63,12 +63,11 @@ void DBConnectionSettingsDialog::printSettingsAndAccept() {
     this->accept();
 }
 
-void DBConnectionSettingsDialog::printLineEditState() const {
-    std::cout << "hostNameLineEdit: " << this->hostNameLineEdit->text().toStdString() << std::endl;
-    std::cout << "portLineEdit: " << this->portLineEdit->text().toStdString() << std::endl;
-    std::cout << "databaseNameLineEdit: " << this->databaseNameLineEdit->text().toStdString() << std::endl;
-    std::cout << "userNameLineEdit: " << this->userNameLineEdit->text().toStdString() << std::endl;
-    std::cout << "passwordLineEdit: " << this->passwordLineEdit->text().toStdString() << std::endl;
+void DBConnectionSettingsDialog::logLineEditState() const {
+    qInfo() << "hostNameLineEdit: " << this->hostNameLineEdit->text();
+    qInfo() << "portLineEdit: " << this->portLineEdit->text();
+    qInfo() << "databaseNameLineEdit: " << this->databaseNameLineEdit->text();
+    qInfo() << "userNameLineEdit: " << this->userNameLineEdit->text();
 }
 
 bool DBConnectionSettingsDialog::updateSettingsFromLineEdits() {

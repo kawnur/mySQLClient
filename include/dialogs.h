@@ -38,9 +38,9 @@ public:
     DBConnectionSettingsDialog(QWidget*);
     ~DBConnectionSettingsDialog() = default;
 
-    void printSettingsAndAccept();
-    void printSettingsAndShow();
-    void printLineEditState() const;
+    void logSettingsAndAccept();
+    void logSettingsAndShow();
+    void logLineEditState() const;
     bool updateSettingsFromLineEdits();
 };
 

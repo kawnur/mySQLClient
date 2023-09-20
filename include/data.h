@@ -26,7 +26,7 @@ public:
     static DBConnectionSettings* instance();
     QString getSetting(const QString&) const;
     bool updateSettings(const Settings&);
-    void printState() const;
+    void logState() const;
 };
 
 class TableChooser : public QObject {
