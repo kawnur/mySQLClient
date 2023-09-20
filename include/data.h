@@ -14,7 +14,7 @@ class DBTableChoosingDialog;
 class DBConnectionSettings {
 private:
     static DBConnectionSettings* _instance;
-    const std::filesystem::path settingsFilePath = "settings.config";
+    const std::filesystem::path settingsFilePath = "settings.config";  // TODO change path at install
     Settings settings;
 
     DBConnectionSettings();

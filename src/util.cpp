@@ -1,5 +1,22 @@
 #include "util.h"
 
+Exception::Exception(const QString& message) {
+    message_ = QString("EXCEPTION: ") + message;
+    int size = message_.size();
+    messageChar = new char[size];
+    std::string messageToStdString = message_.toStdString();
+    const char* data = messageToStdString.c_str();
+    strncpy(messageChar, data, message_.size());
+};
+
+Exception::~Exception() {
+    delete[] messageChar;
+};
+
+const char* Exception::what() const noexcept {
+    return messageChar;
+};
+
 bool setAndOpenSqlDatabase(QSqlDatabase& db) {
     DBConnectionSettings* connectionSettings = DBConnectionSettings::instance();
 
@@ -47,7 +64,7 @@ void parseFile(Settings& settings, const std::filesystem::path& filePath) {
     QFile file(filePath);
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return;
+        throw Exception("Settings file was not found");
     }
 
     while(!file.atEnd()) {
@@ -56,8 +73,7 @@ void parseFile(Settings& settings, const std::filesystem::path& filePath) {
         std::pair<QString, QString> pair = parseLine(line, delimiter);
 
         if(!settings.find(pair.first)) {
-            qWarning() << "Unknown key in settings file: " << pair.first;
-            throw Exception(std::string("Unknown key in settings file"));  // TODO change Exception class
+            throw Exception("Unknown key in settings file: " + pair.first);
         }
 
         settings.setSetting(pair);

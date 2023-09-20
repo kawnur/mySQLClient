@@ -1,6 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <cstring>
 #include <exception>
 #include <QCoreApplication>
 #include <QFile>
@@ -16,18 +17,18 @@
 #include "settings.h"
 
 
-inline QFile logFilePath {"log"};
+inline QFile logFilePath {"log"};  // TODO change path at install
 
 class Exception : public std::exception {
 private:
-    std::string message_;
+    QString message_;
+    char* messageChar;
+
 public:
-    Exception(const std::string& message) {
-        message_ = "EXCEPTION: " + message;
-    };
-    const char* what() const noexcept {
-        return message_.c_str();
-    };
+    Exception(const QString& );
+    ~Exception();
+
+    const char* what() const noexcept;
 };
 
 bool setAndOpenSqlDatabase(QSqlDatabase&);

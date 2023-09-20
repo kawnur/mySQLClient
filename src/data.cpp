@@ -11,8 +11,8 @@ void DBConnectionSettings::initialize() {
     try {
         parseFile(this->settings, settingsFilePath);
     }
-    catch(const std::exception& e) {
-        qInfo() << e.what();  // TODO remove cout add handler
+    catch(const Exception& e) {
+        qInfo() << e.what();
     }
 
     // log parsed settings
