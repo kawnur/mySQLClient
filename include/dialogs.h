@@ -1,5 +1,5 @@
-#ifndef DIALOGS_H
-#define DIALOGS_H
+#ifndef MYSQLCLIENT_INCLUDE_DIALOGS_H_
+#define MYSQLCLIENT_INCLUDE_DIALOGS_H_
 
 #include <QDialog>
 #include <QDialogButtonBox>
@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+
 #include "data.h"
 #include "manager.h"
 
@@ -89,4 +90,4 @@ public:
     ~DBReconnectionResultDialog() = default;
 };
 
-#endif // DIALOGS_H
+#endif // MYSQLCLIENT_INCLUDE_DIALOGS_H_

@@ -1,8 +1,9 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MYSQLCLIENT_INCLUDE_MODEL_H_
+#define MYSQLCLIENT_INCLUDE_MODEL_H_
 
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
+
 #include "mainwindow.h"
 
 class Model {
@@ -23,4 +24,4 @@ public:
     void logState() const;
 };
 
-#endif // MODEL_H
+#endif // MYSQLCLIENT_INCLUDE_MODEL_H_

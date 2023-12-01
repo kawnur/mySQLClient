@@ -1,8 +1,9 @@
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef MYSQLCLIENT_INCLUDE_MANAGER_H_
+#define MYSQLCLIENT_INCLUDE_MANAGER_H_
 
 #include <QObject>
 #include <QSqlQueryModel>
+
 #include "data.h"
 #include "helpers.h"
 #include "model.h"
@@ -38,4 +39,4 @@ public slots:
     void dbReconnect();
 };
 
-#endif // MANAGER_H
+#endif // MYSQLCLIENT_INCLUDE_MANAGER_H_

@@ -1,5 +1,5 @@
-#ifndef HELPERS_H
-#define HELPERS_H
+#ifndef MYSQLCLIENT_INCLUDE_HELPERS_H_
+#define MYSQLCLIENT_INCLUDE_HELPERS_H_
 
 #include "util.h"
 
@@ -19,4 +19,4 @@ public:
     bool reOpen();
 };
 
-#endif // HELPERS_H
+#endif // MYSQLCLIENT_INCLUDE_HELPERS_H_

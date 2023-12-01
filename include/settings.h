@@ -1,5 +1,5 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef MYSQLCLIENT_INCLUDE_SETTINGS_H_
+#define MYSQLCLIENT_INCLUDE_SETTINGS_H_
 
 #include <iostream>
 #include <map>
@@ -36,4 +36,4 @@ public:
     void logState() const;
 };
 
-#endif // SETTINGS_H
+#endif // MYSQLCLIENT_INCLUDE_SETTINGS_H_

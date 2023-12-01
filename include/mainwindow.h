@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MYSQLCLIENT_INCLUDE_MAINWINDOW_H_
+#define MYSQLCLIENT_INCLUDE_MAINWINDOW_H_
 
 #include <QApplication>
 #include <QMainWindow>
@@ -7,6 +7,7 @@
 #include <QMenuBar>
 #include <QTableView>
 #include <QVBoxLayout>
+
 #include "dialogs.h"
 #include "manager.h"
 
@@ -18,7 +19,7 @@ private:
     static MainWindow* _instance;
     static int tabIndex;
 
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget* parent = nullptr);
     ~MainWindow() = default;
 
     void createConnection();
@@ -34,4 +35,4 @@ public slots:
     void closeTab(int);
 };
 
-#endif // MAINWINDOW_H
+#endif // MYSQLCLIENT_INCLUDE_MAINWINDOW_H_

@@ -1,12 +1,15 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef MYSQLCLIENT_INCLUDE_DATA_H_
+#define MYSQLCLIENT_INCLUDE_DATA_H_
 
 #include <QObject>
 #include <QSqlQueryModel>
 #include <QString>
+
 #include "dialogs.h"
 #include "settings.h"
 #include "util.h"
+
+// TODO add namespace ???
 
 class Manager;
 class DBTableChoosingDialog;
@@ -55,4 +58,4 @@ signals:
     void tableNameDefined(QString&);
 };
 
-#endif // DATA_H
+#endif // MYSQLCLIENT_INCLUDE_DATA_H_

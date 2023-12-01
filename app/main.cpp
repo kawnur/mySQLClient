@@ -3,10 +3,10 @@
 #include <QString>
 #include <QtDebug>
 #include <QtGlobal>
+
 #include "data.h"
 #include "settings.h"
 #include "util.h"
-
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

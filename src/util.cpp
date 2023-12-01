@@ -1,5 +1,7 @@
 #include "util.h"
 
+// TODO https://google.github.io/styleguide/cppguide.html#Internal_Linkage
+
 Exception::Exception(const QString& message) {
     message_ = QString("EXCEPTION: ") + message;
     int size = message_.size();

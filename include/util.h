@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef MYSQLCLIENT_INCLUDE_UTIL_H_
+#define MYSQLCLIENT_INCLUDE_UTIL_H_
 
 #include <cstring>
 #include <exception>
@@ -13,9 +13,14 @@
 #include <QSqlRecord>
 #include <QtGlobal>
 #include <QVersionNumber>
+
 #include "data.h"
 #include "settings.h"
 
+// TODO includes???
+// https://google.github.io/styleguide/cppguide.html#Self_contained_Headers
+// https://google.github.io/styleguide/cppguide.html#Include_What_You_Use
+// https://google.github.io/styleguide/cppguide.html#Forward_Declarations
 
 inline QFile logFilePath {"log"};  // TODO change path at install
 
@@ -43,4 +48,4 @@ void parseFile(Settings&, const std::filesystem::path&);
 
 void messageHandler(QtMsgType, const QMessageLogContext&, const QString&);
 
-#endif // UTIL_H
+#endif // MYSQLCLIENT_INCLUDE_UTIL_H_

@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QString>
+
 #include "settings.h"
 #include "util.h"
 
